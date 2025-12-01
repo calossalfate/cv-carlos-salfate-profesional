@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Carlos Salfate - Automation & Systems Engineer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --primary-light: #60a5fa;
+            --accent: #06b6d4;
+            --accent-soft: rgba(6, 182, 212, 0.15);
+            --bg: #0a0e27;
+            --bg-card: #0f1629;
+            --bg-card-hover: #141b2e;
+            --bg-nav: rgba(15, 22, 41, 0.95);
+            --border: rgba(59, 130, 246, 0.2);
+            --border-hover: rgba(59, 130, 246, 0.4);
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --text-light: #cbd5e1;
+            --success: #10b981;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+            --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.6);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: var(--bg);
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(6, 182, 212, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(118, 75, 162, 0.1) 0%, transparent 50%);
+            color: var(--text);
+            line-height: 1.7;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        /* Navegación Sticky */
+        .nav-container {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--bg-nav);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            box-shadow: var(--shadow-md);
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            padding: 0.5rem 1rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-light);
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .nav-link.active {
+            color: var(--primary-light);
+            background: var(--accent-soft);
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .btn-control {
+            padding: 0.5rem 1rem;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid var(--border);
+            color: var(--primary-light);
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .btn-control:hover {
+            background: rgba(59, 130, 246, 0.2);
+            border-color: var(--primary);
+            transform: translateY(-1px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page {
+            background: var(--bg-card);
+            border-radius: 32px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-xl);
+            padding: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-3);
+            opacity: 0.8;
+        }
+
+        header {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 2rem;
+            align-items: start;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 24px;
+            background: var(--gradient-3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 
+                0 0 0 4px var(--bg-card),
+                0 8px 24px rgba(6, 182, 212, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 24px;
+        }
+
+        .avatar::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+            pointer-events: none;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .header-main {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .name {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, var(--text) 0%, var(--text-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .title {
+            font-size: 1.1rem;
+            color: var(--primary-light);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-weight: 600;
+            margin-top: 0.25rem;
+        }
+
+        .tagline {
+            margin-top: 0.75rem;
+            font-size: 1rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            max-width: 600px;
+        }
+
+        .contact {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            min-width: 200px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .contact a {
+            color: var(--primary-light);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .contact a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-light);
+            transition: width 0.3s ease;
+        }
+
+        .contact a:hover {
+            color: var(--accent);
+        }
+
+        .contact a:hover::after {
+            width: 100%;
+        }
+
+        .badge-highlight {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--accent-soft);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-top: 1rem;
+        }
+
+        main {
+            display: grid;
+            grid-template-columns: 1.8fr 1fr;
+            gap: 2.5rem;
+        }
+
+        @media (max-width: 968px) {
+            main {
+                grid-template-columns: 1fr;
+            }
+            header {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .avatar {
+                margin: 0 auto;
+            }
+            .page {
+                padding: 2rem 1.5rem;
+            }
+            .nav {
+                padding: 1rem;
+            }
+            .nav-links {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        .section {
+            margin-bottom: 2.5rem;
+            scroll-margin-top: 100px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .section-title {
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--primary-light);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex: 1;
+        }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--primary) 0%, transparent 100%);
+        }
+
+        .toggle-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-light);
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+            border-radius: 4px;
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .section-header:hover .toggle-icon {
+            background: rgba(59, 130, 246, 0.2);
+        }
+
+        .section.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            overflow: hidden;
+            transition: max-height 0.4s ease, opacity 0.3s ease;
+        }
+
+        .section.collapsed .section-content {
+            max-height: 0;
+            opacity: 0;
+            margin: 0;
+        }
+
+        .card {
+            background: rgba(15, 22, 41, 0.6);
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gradient-3);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card + .card {
+            margin-top: 1rem;
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .job-title {
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--text);
+            margin-bottom: 0.25rem;
+        }
+
+        .job-company {
+            font-size: 0.95rem;
+            color: var(--primary-light);
+            font-weight: 500;
+        }
+
+        .job-period {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+            padding: 0.25rem 0.75rem;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .job-bullets {
+            list-style: none;
+            padding: 0;
+            margin-top: 0.75rem;
+        }
+
+        .job-bullets li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        .job-bullets li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .job-bullets li strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .pill-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+
+        .pill {
+            font-size: 0.8rem;
+            padding: 0.35rem 0.85rem;
+            border-radius: 12px;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            color: var(--primary-light);
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .pill:hover {
+            background: rgba(59, 130, 246, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .skill-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .skill-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .skill-group-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--text-muted);
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .skill-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill {
+            font-size: 0.85rem;
+            padding: 0.4rem 0.8rem;
+            border-radius: 10px;
+            background: rgba(15, 22, 41, 0.8);
+            border: 1px solid var(--border);
+            color: var(--text-light);
+            transition: all 0.2s ease;
+        }
+
+        .skill:hover {
+            background: rgba(59, 130, 246, 0.15);
+            border-color: var(--primary);
+            transform: translateY(-1px);
+        }
+
+        .project-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .project-sub {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+            font-style: italic;
+        }
+
+        .project-metrics {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 12px;
+            font-size: 0.9rem;
+            color: var(--success);
+            line-height: 1.6;
+        }
+
+        .edu-title {
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--text);
+            margin-bottom: 0.25rem;
+        }
+
+        .edu-meta {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .lang-level {
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+        }
+
+        .lang-level strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .text-muted {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .profile-text {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            line-height: 1.8;
+            margin-top: 0.5rem;
+        }
+
+        .profile-text strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .print-note {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        @media print {
+            .nav-container {
+                display: none;
+            }
+            body {
+                background: white;
+                padding: 0;
+            }
+            .page {
+                box-shadow: none;
+                border-radius: 0;
+                border: none;
+                padding: 2rem;
+            }
+            .page::before {
+                display: none;
+            }
+            .print-note {
+                display: none;
+            }
+            .card:hover {
+                transform: none;
+            }
+            .section.collapsed .section-content {
+                max-height: none;
+                opacity: 1;
+            }
+            * {
+                color: #000 !important;
+                background: transparent !important;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        ::selection {
+            background: rgba(59, 130, 246, 0.3);
+            color: var(--text);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navegación Sticky -->
+    <div class="nav-container">
+        <nav class="nav">
+            <div class="nav-links">
+                <a href="#perfil" class="nav-link">Perfil</a>
+                <a href="#experiencia" class="nav-link">Experiencia</a>
+                <a href="#proyecto" class="nav-link">Proyecto</a>
+                <a href="#competencias" class="nav-link">Competencias</a>
+                <a href="#formacion" class="nav-link">Formación</a>
+            </div>
+            <div class="nav-controls">
+                <button class="btn-control" onclick="expandAll()">Expandir Todo</button>
+                <button class="btn-control" onclick="collapseAll()">Colapsar Todo</button>
+            </div>
+        </nav>
+    </div>
+
+    <div class="container">
+        <div class="page">
+            <header>
+                <div class="avatar">
+                    <img src="carlos.jpg" alt="Carlos Salfate">
+                </div>
+                <div class="header-main">
+                    <div class="name">Carlos Salfate</div>
+                    <div class="title">Automation & Systems Engineer</div>
+                    <p class="tagline">
+                        Operación y automatización de infraestructura crítica nacional (+630 módulos).  
+                        Especializado en Python, Linux, Ansible, n8n e IA aplicada a monitoreo y continuidad operativa.
+                    </p>
+                    <div class="badge-highlight">
+                        <span>🚀</span>
+                        <span>Infraestructura crítica: +630 módulos en producción</span>
+                    </div>
+                </div>
+                <div class="contact">
+                    <div class="contact-item">
+                        <span>📍</span>
+                        <span>Santiago, Chile · 100% remoto</span>
+                    </div>
+                    <div class="contact-item">
+                        <span>✉️</span>
+                        <a href="mailto:carlos_salfate@hotmail.com">carlos_salfate@hotmail.com</a>
+                    </div>
+                    <div class="contact-item">
+                        <span>📞</span>
+                        <span>+569 51445939</span>
+                    </div>
+                    <div class="contact-item">
+                        <span>💼</span>
+                        <a href="https://www.linkedin.com/in/carlossalfate" target="_blank">LinkedIn Profile</a>
+                    </div>
+                </div>
+            </header>
+
+            <main>
+                <!-- Columna izquierda -->
+                <section>
+                    <div class="section" id="perfil">
+                        <div class="section-header" onclick="toggleSection(this)">
+                            <h2 class="section-title">Perfil profesional</h2>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="section-content">
+                            <div class="card">
+                                <p class="profile-text">
+                                    Ingeniero de Desarrollo y Automatización con más de 4 años operando y mejorando infraestructura
+                                    crítica para el Estado de Chile, responsable directo del monitoreo y continuidad operativa de
+                                    <strong>136 módulos MEX propios de ChileAtiende</strong> y más de
+                                    <strong>500 módulos de otras instituciones</strong> (Registro Civil, Fonasa, MDS, Municipalidades,
+                                    RR.EE., entre otros).
+                                </p>
+                                <p class="profile-text" style="margin-top: 1rem;">
+                                    Me caracterizo por ser <strong>altamente observador, proactivo y orientado a la mejora continua</strong>,
+                                    capaz de detectar puntos de falla, proponer soluciones innovadoras y llevarlas a producción usando
+                                    automatización (Ansible, n8n, Python), Linux y herramientas de IA para aumentar la estabilidad y reducir
+                                    el trabajo manual del equipo de soporte.
+                                </p>
+                                <p class="profile-text" style="margin-top: 1rem;">
+                                    Cuento con <strong>inglés avanzado (C1)</strong> y experiencia trabajando directamente con proveedores
+                                    internacionales como <strong>Netdata</strong> y <strong>Uptrends</strong>, gestionando soporte,
+                                    adquisiciones y troubleshooting técnico completamente en inglés.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section" id="experiencia">
+                        <div class="section-header" onclick="toggleSection(this)">
+                            <h2 class="section-title">Experiencia profesional</h2>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="section-content">
+                            <!-- Tecnova -->
+                            <div class="card">
+                                <div class="job-header">
+                                    <div>
+                                        <div class="job-title">Ingeniero de Desarrollo / Automation Engineer</div>
+                                        <div class="job-company">Tecnova · Proyecto ChileAtiende – IPS</div>
+                                    </div>
+                                    <div class="job-period">2024 – Actualidad</div>
+                                </div>
+                                <ul class="job-bullets">
+                                    <li>Operación y automatización de <strong>136 módulos MEX propios</strong> y soporte a
+                                        <strong>500+ módulos externos</strong> de instituciones públicas en todo Chile.</li>
+                                    <li>Diseño y ejecución de automatización avanzada con <strong>Ansible, n8n, Python y SSH</strong>:
+                                        reinicios masivos, despliegue de parches, instalación de software y scripts de mantenimiento.</li>
+                                    <li>Implementación de <strong>Wake-on-LAN masivo</strong> para encendido remoto de módulos sin
+                                        intervención humana.</li>
+                                    <li>Desarrollo de <strong>scripts de autoreparación</strong> (Brave kiosko, impresoras, permisos,
+                                        servicios y periféricos).</li>
+                                    <li>Integración de herramientas de <strong>observabilidad y monitoreo global</strong> (Netdata,
+                                        Uptrends), incluyendo configuración, métricas y alertas.</li>
+                                    <li>Uso de <strong>IA</strong> para análisis de logs, generación de reportes ejecutivos y apoyo a un
+                                        modelo predictivo de fallas.</li>
+                                </ul>
+                            </div>
+
+                            <!-- Honorarios IPS -->
+                            <div class="card">
+                                <div class="job-header">
+                                    <div>
+                                        <div class="job-title">Ingeniero de Soporte Avanzado / Automatización</div>
+                                        <div class="job-company">Honorarios IPS – ChileAtiende</div>
+                                    </div>
+                                    <div class="job-period">2023 – 2024</div>
+                                </div>
+                                <ul class="job-bullets">
+                                    <li>Diagnóstico avanzado de módulos MEX en producción: red, DNS, biometría, impresión y Brave.</li>
+                                    <li>Desarrollo de scripts en <strong>Python y Bash</strong> para automatizar tareas repetitivas de
+                                        soporte y mantenimiento.</li>
+                                    <li>Levantamiento de requerimientos técnicos para otras áreas de la institución, definiendo necesidades
+                                        y alcances de soluciones TI.</li>
+                                    <li>Implementación de <strong>servidores de impresión remotos</strong> para apoyar a sucursales en
+                                        distintas regiones.</li>
+                                    <li>Uso de herramientas de IA para documentación, análisis de patrones de falla y propuestas de mejora.</li>
+                                </ul>
+                            </div>
+
+                            <!-- Infosky -->
+                            <div class="card">
+                                <div class="job-header">
+                                    <div>
+                                        <div class="job-title">Analista de Soporte TI</div>
+                                        <div class="job-company">Infosky · Proyecto ChileAtiende</div>
+                                    </div>
+                                    <div class="job-period">2022 – 2023</div>
+                                </div>
+                                <ul class="job-bullets">
+                                    <li>Soporte remoto por <strong>SSH</strong> a nodos Linux (Lubuntu/Xubuntu) en módulos de autoatención.</li>
+                                    <li>Restablecimiento de servicios críticos: impresión, navegador en modo kiosko, conectividad.</li>
+                                    <li>Documentación de incidentes y colaboración en la estandarización de procedimientos de soporte.</li>
+                                </ul>
+                            </div>
+
+                            <!-- TIC Services -->
+                            <div class="card">
+                                <div class="job-header">
+                                    <div>
+                                        <div class="job-title">Soporte TI</div>
+                                        <div class="job-company">TIC Services · Proyecto ChileAtiende</div>
+                                    </div>
+                                    <div class="job-period">2021 – 2022</div>
+                                </div>
+                                <ul class="job-bullets">
+                                    <li>Soporte técnico a módulos de autoatención MEX a nivel nacional.</li>
+                                    <li>Configuración de red, impresoras, pantalla táctil y ejecución de Brave en modo kiosko.</li>
+                                    <li>Base operativa que dio origen a posteriores automatizaciones en la infraestructura.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section" id="proyecto">
+                        <div class="section-header" onclick="toggleSection(this)">
+                            <h2 class="section-title">Proyecto destacado</h2>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="section-content">
+                            <div class="card">
+                                <div class="project-title">OMNIX CORE – Plataforma Inteligente de Monitoreo y Automatización</div>
+                                <div class="project-sub">Sistema interno para monitoreo, automatización y continuidad operativa de módulos MEX y asociados.</div>
+                                <p class="text-muted" style="margin-bottom: 0.75rem;">
+                                    Desarrollo de una plataforma que centraliza el estado de más de 630 módulos, con monitoreo en tiempo
+                                    real, ejecución remota de acciones, análisis de patrones e integración con IA.
+                                </p>
+                                <ul class="job-bullets">
+                                    <li>Dashboard en tiempo real con estados por módulo (ping, accesibilidad, color de estado, detalle).</li>
+                                    <li>Automatización de acciones mediante <strong>Ansible + n8n</strong>: reinicios, WOL, parches, evidencias.</li>
+                                    <li>Integración con <strong>Netdata</strong> y <strong>Uptrends</strong> para observabilidad interna y monitoreo externo.</li>
+                                    <li>Generación de reportes ejecutivos automáticos (correos, resúmenes, métricas de disponibilidad).</li>
+                                    <li>Uso de IA para análisis de logs y construcción de un modelo predictivo inicial de riesgo de falla.</li>
+                                </ul>
+                                <div class="project-metrics">
+                                    <strong>Impacto:</strong> Reducción del trabajo manual de soporte, disminución del MTTR/MTTD y transición desde un soporte
+                                    reactivo a uno proactivo/predictivo.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Columna derecha -->
+                <aside>
+                    <div class="section" id="competencias">
+                        <div class="section-header" onclick="toggleSection(this)">
+                            <h2 class="section-title">Competencias técnicas</h2>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="section-content">
+                            <div class="card">
+                                <div class="skill-group">
+                                    <div class="skill-group-title">Automatización</div>
+                                    <div class="skill-list">
+                                        <span class="skill">Ansible (avanzado)</span>
+                                        <span class="skill">n8n (avanzado)</span>
+                                        <span class="skill">SSH automation</span>
+                                        <span class="skill">Wake-on-LAN</span>
+                                        <span class="skill">Scripts autoreparadores</span>
+                                    </div>
+                                </div>
+
+                                <div class="skill-group">
+                                    <div class="skill-group-title">Desarrollo / Scripting</div>
+                                    <div class="skill-list">
+                                        <span class="skill">Python</span>
+                                        <span class="skill">Bash</span>
+                                        <span class="skill">Node.js</span>
+                                        <span class="skill">JavaScript</span>
+                                        <span class="skill">Flask</span>
+                                        <span class="skill">API REST</span>
+                                    </div>
+                                </div>
+
+                                <div class="skill-group">
+                                    <div class="skill-group-title">Infraestructura</div>
+                                    <div class="skill-list">
+                                        <span class="skill">Linux (Ubuntu/Debian)</span>
+                                        <span class="skill">Redes, DNS, DHCP</span>
+                                        <span class="skill">Systemd</span>
+                                        <span class="skill">Servidores de impresión</span>
+                                        <span class="skill">Netdata</span>
+                                        <span class="skill">Uptrends</span>
+                                    </div>
+                                </div>
+
+                                <div class="skill-group">
+                                    <div class="skill-group-title">Herramientas</div>
+                                    <div class="skill-list">
+                                        <span class="skill">Docker</span>
+                                        <span class="skill">Git / GitHub</span>
+                                        <span class="skill">Apache</span>
+                                        <span class="skill">Nginx</span>
+                                        <span class="skill">MySQL</span>
+                                        <span class="skill">OpenSSH</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section" id="idiomas">
+                        <div class="section-header" onclick="toggleSection(this)">
+                            <h2 class="section-title">Idiomas</h2>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="section-content">
+                            <div class="card">
+                                <p class="lang-level"><strong>Español:</strong> Nativo</p>
+                                <p class="lang-level"><strong>Inglés:</strong> Avanzado (C1) – uso diario en contexto técnico, reuniones con proveedores, soporte, documentación.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section" id="formacion">
+                        <div class="section-header" onclick="toggleSection(this)">
+                            <h2 class="section-title">Formación</h2>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="section-content">
+                            <div class="card">
+                                <div class="edu-title">Ingeniería Informática</div>
+                                <div class="edu-meta">INACAP · 2021 – 2025</div>
+                                <p class="text-muted" style="margin-top: 0.5rem;">
+                                    Defensa de proyecto de título: 11 de diciembre de 2025.  
+                                    Título profesional en trámite para 2026.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section" id="fortalezas">
+                        <div class="section-header" onclick="toggleSection(this)">
+                            <h2 class="section-title">Fortalezas personales</h2>
+                            <div class="toggle-icon">▼</div>
+                        </div>
+                        <div class="section-content">
+                            <div class="card">
+                                <ul class="job-bullets">
+                                    <li>Capacidad de observación para detectar mejoras y riesgos antes de que sean incidentes.</li>
+                                    <li>Proactividad y visión orientada a automatizar tareas repetitivas e ineficientes.</li>
+                                    <li>Generación constante de ideas innovadoras para mejorar procesos y sistemas.</li>
+                                    <li>Trabajo autónomo y colaborativo en entornos remotos.</li>
+                                    <li>Comunicación clara con equipos técnicos y no técnicos, en español e inglés.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </main>
+
+            <div class="print-note">
+                💡 Puedes exportar este CV como PDF desde el navegador: Archivo → Imprimir → Guardar como PDF
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle individual sections
+        function toggleSection(header) {
+            const section = header.closest('.section');
+            section.classList.toggle('collapsed');
+        }
+
+        // Expand all sections
+        function expandAll() {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('collapsed');
+            });
+        }
+
+        // Collapse all sections
+        function collapseAll() {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.add('collapsed');
+            });
+        }
+
+        // Navigation active state
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                
+                if (targetSection) {
+                    // Remove active from all links
+                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                    // Add active to clicked link
+                    this.classList.add('active');
+                    // Scroll to section
+                    targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    // Expand section if collapsed
+                    targetSection.classList.remove('collapsed');
+                }
+            });
+        });
+
+        // Update active nav link on scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.pageYOffset >= sectionTop - 150) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Initialize - all sections expanded by default
+        document.addEventListener('DOMContentLoaded', () => {
+            expandAll();
+        });
+    </script>
+</body>
+</html>
