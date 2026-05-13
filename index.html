@@ -1,1054 +1,1691 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Carlos Salfate - Automation & Systems Engineer</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-    <style>
-        :root {
-            --primary: #3b82f6;
-            --primary-dark: #2563eb;
-            --primary-light: #60a5fa;
-            --accent: #06b6d4;
-            --accent-soft: rgba(6, 182, 212, 0.15);
-            --bg: #0a0e27;
-            --bg-card: #0f1629;
-            --bg-card-hover: #141b2e;
-            --bg-nav: rgba(15, 22, 41, 0.95);
-            --border: rgba(59, 130, 246, 0.2);
-            --border-hover: rgba(59, 130, 246, 0.4);
-            --text: #f1f5f9;
-            --text-muted: #94a3b8;
-            --text-light: #cbd5e1;
-            --success: #10b981;
-            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
-            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
-            --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.6);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-            background: var(--bg);
-            background-image: 
-                radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.12) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(6, 182, 212, 0.12) 0%, transparent 50%),
-                radial-gradient(circle at 40% 20%, rgba(118, 75, 162, 0.1) 0%, transparent 50%);
-            color: var(--text);
-            line-height: 1.7;
-            padding: 0;
-            min-height: 100vh;
-        }
-
-        /* Navegación Sticky */
-        .nav-container {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            background: var(--bg-nav);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
-            box-shadow: var(--shadow-md);
-        }
-
-        .nav {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .nav-link {
-            padding: 0.5rem 1rem;
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 500;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .nav-link:hover {
-            color: var(--primary-light);
-            background: rgba(59, 130, 246, 0.1);
-        }
-
-        .nav-link.active {
-            color: var(--primary-light);
-            background: var(--accent-soft);
-        }
-
-        .nav-controls {
-            display: flex;
-            gap: 0.5rem;
-            align-items: center;
-        }
-
-        .btn-control {
-            padding: 0.5rem 1rem;
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid var(--border);
-            color: var(--primary-light);
-            border-radius: 8px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: inherit;
-        }
-
-        .btn-control:hover {
-            background: rgba(59, 130, 246, 0.2);
-            border-color: var(--primary);
-            transform: translateY(-1px);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        .page {
-            background: var(--bg-card);
-            border-radius: 32px;
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow-xl);
-            padding: 3rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .page::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--gradient-3);
-            opacity: 0.8;
-        }
-
-        header {
-            display: grid;
-            grid-template-columns: auto 1fr auto;
-            gap: 2rem;
-            align-items: start;
-            margin-bottom: 3rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid var(--border);
-            position: relative;
-        }
-
-        .avatar {
-            width: 120px;
-            height: 120px;
-            border-radius: 24px;
-            background: var(--gradient-3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 
-                0 0 0 4px var(--bg-card),
-                0 8px 24px rgba(6, 182, 212, 0.4);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 24px;
-        }
-
-        .avatar::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transform: rotate(45deg);
-            animation: shine 3s infinite;
-            pointer-events: none;
-        }
-
-        @keyframes shine {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
-        }
-
-        .header-main {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .name {
-            font-size: 2.5rem;
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            background: linear-gradient(135deg, var(--text) 0%, var(--text-light) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .title {
-            font-size: 1.1rem;
-            color: var(--primary-light);
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            font-weight: 600;
-            margin-top: 0.25rem;
-        }
-
-        .tagline {
-            margin-top: 0.75rem;
-            font-size: 1rem;
-            color: var(--text-muted);
-            line-height: 1.6;
-            max-width: 600px;
-        }
-
-        .contact {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            min-width: 200px;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .contact a {
-            color: var(--primary-light);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .contact a::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--primary-light);
-            transition: width 0.3s ease;
-        }
-
-        .contact a:hover {
-            color: var(--accent);
-        }
-
-        .contact a:hover::after {
-            width: 100%;
-        }
-
-        .badge-highlight {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background: var(--accent-soft);
-            border: 1px solid rgba(6, 182, 212, 0.3);
-            border-radius: 12px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--accent);
-            margin-top: 1rem;
-        }
-
-        main {
-            display: grid;
-            grid-template-columns: 1.8fr 1fr;
-            gap: 2.5rem;
-        }
-
-        @media (max-width: 968px) {
-            main {
-                grid-template-columns: 1fr;
-            }
-            header {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-            .avatar {
-                margin: 0 auto;
-            }
-            .page {
-                padding: 2rem 1.5rem;
-            }
-            .nav {
-                padding: 1rem;
-            }
-            .nav-links {
-                width: 100%;
-                justify-content: center;
-            }
-        }
-
-        .section {
-            margin-bottom: 2.5rem;
-            scroll-margin-top: 100px;
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.25rem;
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .section-title {
-            font-size: 0.75rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--primary-light);
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            flex: 1;
-        }
-
-        .section-title::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: linear-gradient(90deg, var(--primary) 0%, transparent 100%);
-        }
-
-        .toggle-icon {
-            width: 24px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary-light);
-            font-size: 1.2rem;
-            transition: transform 0.3s ease;
-            border-radius: 4px;
-            background: rgba(59, 130, 246, 0.1);
-        }
-
-        .section-header:hover .toggle-icon {
-            background: rgba(59, 130, 246, 0.2);
-        }
-
-        .section.collapsed .toggle-icon {
-            transform: rotate(-90deg);
-        }
-
-        .section-content {
-            overflow: hidden;
-            transition: max-height 0.4s ease, opacity 0.3s ease;
-        }
-
-        .section.collapsed .section-content {
-            max-height: 0;
-            opacity: 0;
-            margin: 0;
-        }
-
-        .card {
-            background: rgba(15, 22, 41, 0.6);
-            border-radius: 20px;
-            border: 1px solid var(--border);
-            padding: 1.5rem;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--gradient-3);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .card:hover {
-            background: var(--bg-card-hover);
-            border-color: var(--border-hover);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .card:hover::before {
-            opacity: 1;
-        }
-
-        .card + .card {
-            margin-top: 1rem;
-        }
-
-        .job-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 1rem;
-            margin-bottom: 0.75rem;
-            flex-wrap: wrap;
-        }
-
-        .job-title {
-            font-weight: 700;
-            font-size: 1.05rem;
-            color: var(--text);
-            margin-bottom: 0.25rem;
-        }
-
-        .job-company {
-            font-size: 0.95rem;
-            color: var(--primary-light);
-            font-weight: 500;
-        }
-
-        .job-period {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            white-space: nowrap;
-            padding: 0.25rem 0.75rem;
-            background: rgba(59, 130, 246, 0.1);
-            border-radius: 8px;
-            border: 1px solid rgba(59, 130, 246, 0.2);
-        }
-
-        .job-bullets {
-            list-style: none;
-            padding: 0;
-            margin-top: 0.75rem;
-        }
-
-        .job-bullets li {
-            position: relative;
-            padding-left: 1.5rem;
-            margin-bottom: 0.5rem;
-            font-size: 0.95rem;
-            color: var(--text-light);
-            line-height: 1.6;
-        }
-
-        .job-bullets li::before {
-            content: '▸';
-            position: absolute;
-            left: 0;
-            color: var(--primary);
-            font-weight: bold;
-        }
-
-        .job-bullets li strong {
-            color: var(--text);
-            font-weight: 600;
-        }
-
-        .pill-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-top: 0.75rem;
-        }
-
-        .pill {
-            font-size: 0.8rem;
-            padding: 0.35rem 0.85rem;
-            border-radius: 12px;
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            color: var(--primary-light);
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
-
-        .pill:hover {
-            background: rgba(59, 130, 246, 0.2);
-            transform: translateY(-1px);
-        }
-
-        .skill-group {
-            margin-bottom: 1.25rem;
-        }
-
-        .skill-group:last-child {
-            margin-bottom: 0;
-        }
-
-        .skill-group-title {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            color: var(--text-muted);
-            font-weight: 700;
-            margin-bottom: 0.75rem;
-        }
-
-        .skill-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .skill {
-            font-size: 0.85rem;
-            padding: 0.4rem 0.8rem;
-            border-radius: 10px;
-            background: rgba(15, 22, 41, 0.8);
-            border: 1px solid var(--border);
-            color: var(--text-light);
-            transition: all 0.2s ease;
-        }
-
-        .skill:hover {
-            background: rgba(59, 130, 246, 0.15);
-            border-color: var(--primary);
-            transform: translateY(-1px);
-        }
-
-        .project-title {
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: var(--text);
-            margin-bottom: 0.5rem;
-        }
-
-        .project-sub {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-bottom: 0.75rem;
-            font-style: italic;
-        }
-
-        .project-metrics {
-            margin-top: 1rem;
-            padding: 1rem;
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            border-radius: 12px;
-            font-size: 0.9rem;
-            color: var(--success);
-            line-height: 1.6;
-        }
-
-        .edu-title {
-            font-weight: 700;
-            font-size: 1rem;
-            color: var(--text);
-            margin-bottom: 0.25rem;
-        }
-
-        .edu-meta {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-
-        .lang-level {
-            font-size: 0.95rem;
-            margin-bottom: 0.5rem;
-            color: var(--text-light);
-        }
-
-        .lang-level strong {
-            color: var(--text);
-            font-weight: 600;
-        }
-
-        .text-muted {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        .profile-text {
-            font-size: 0.95rem;
-            color: var(--text-light);
-            line-height: 1.8;
-            margin-top: 0.5rem;
-        }
-
-        .profile-text strong {
-            color: var(--text);
-            font-weight: 600;
-        }
-
-        .print-note {
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border);
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            text-align: center;
-        }
-
-        @media print {
-            .nav-container {
-                display: none;
-            }
-            body {
-                background: white;
-                padding: 0;
-            }
-            .page {
-                box-shadow: none;
-                border-radius: 0;
-                border: none;
-                padding: 2rem;
-            }
-            .page::before {
-                display: none;
-            }
-            .print-note {
-                display: none;
-            }
-            .card:hover {
-                transform: none;
-            }
-            .section.collapsed .section-content {
-                max-height: none;
-                opacity: 1;
-            }
-            * {
-                color: #000 !important;
-                background: transparent !important;
-            }
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        ::selection {
-            background: rgba(59, 130, 246, 0.3);
-            color: var(--text);
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <title>Carlos Salfate · Founder & CEO | AI Automation Architect</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="CV digital de Carlos Salfate, Founder & CEO de BugLab Soluciones, especialista en IA, automatización, DevOps, monitoreo inteligente e infraestructura crítica." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #050816;
+      --bg-2: #07111f;
+      --bg-card: rgba(9, 17, 33, 0.86);
+      --bg-card-2: rgba(12, 25, 47, 0.9);
+      --bg-hover: rgba(18, 35, 63, 0.96);
+      --nav-bg: rgba(5, 8, 22, 0.86);
+
+      --primary: #38bdf8;
+      --primary-2: #0ea5e9;
+      --accent: #22d3ee;
+      --accent-2: #60a5fa;
+      --violet: #8b5cf6;
+      --success: #22c55e;
+      --warning: #facc15;
+
+      --text: #f8fafc;
+      --text-soft: #dbeafe;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+
+      --border: rgba(56, 189, 248, 0.18);
+      --border-2: rgba(34, 211, 238, 0.28);
+      --glow: 0 0 36px rgba(56, 189, 248, 0.18);
+      --glow-strong: 0 0 60px rgba(34, 211, 238, 0.26);
+
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+
+      --shadow-lg: 0 24px 80px rgba(0, 0, 0, 0.48);
+      --shadow-md: 0 16px 44px rgba(0, 0, 0, 0.36);
+      --shadow-sm: 0 8px 22px rgba(0, 0, 0, 0.24);
+
+      --gradient: linear-gradient(135deg, #38bdf8 0%, #22d3ee 45%, #8b5cf6 100%);
+      --gradient-soft: linear-gradient(135deg, rgba(56, 189, 248, 0.18), rgba(139, 92, 246, 0.12));
+      --gradient-card: linear-gradient(135deg, rgba(14, 165, 233, 0.12), rgba(34, 211, 238, 0.07), rgba(139, 92, 246, 0.10));
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 15% 15%, rgba(56, 189, 248, 0.18) 0, transparent 28%),
+        radial-gradient(circle at 88% 18%, rgba(139, 92, 246, 0.18) 0, transparent 32%),
+        radial-gradient(circle at 70% 88%, rgba(34, 211, 238, 0.12) 0, transparent 30%),
+        linear-gradient(135deg, var(--bg) 0%, var(--bg-2) 52%, #020617 100%);
+      color: var(--text);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      opacity: 0.18;
+      background-image:
+        linear-gradient(rgba(56, 189, 248, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(56, 189, 248, 0.08) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: radial-gradient(circle at 50% 20%, black, transparent 75%);
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      background:
+        linear-gradient(90deg, transparent 0%, rgba(56, 189, 248, 0.03) 50%, transparent 100%),
+        radial-gradient(circle at 50% 0%, rgba(34, 211, 238, 0.08), transparent 55%);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .nav-container {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: var(--nav-bg);
+      backdrop-filter: blur(22px);
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .nav {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0.85rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      min-width: 230px;
+    }
+
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      background: var(--gradient);
+      display: grid;
+      place-items: center;
+      box-shadow: var(--glow);
+      font-weight: 900;
+      color: #020617;
+      letter-spacing: -0.08em;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.15;
+    }
+
+    .brand-text strong {
+      font-size: 0.92rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .brand-text span {
+      color: var(--text-muted);
+      font-size: 0.74rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 0.35rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .nav-link {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 0.52rem 0.78rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      transition: all 0.25s ease;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      color: var(--text);
+      background: rgba(56, 189, 248, 0.12);
+      border-color: var(--border);
+      box-shadow: var(--glow);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: 1px solid var(--border-2);
+      border-radius: 999px;
+      padding: 0.58rem 0.95rem;
+      font-family: inherit;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--text);
+      background: rgba(56, 189, 248, 0.1);
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      background: rgba(56, 189, 248, 0.18);
+      box-shadow: var(--glow);
+    }
+
+    .btn-primary {
+      background: var(--gradient);
+      color: #020617;
+      border-color: transparent;
+      box-shadow: var(--glow);
+    }
+
+    .btn-primary:hover {
+      box-shadow: var(--glow-strong);
+    }
+
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    .page {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 36px;
+      background: linear-gradient(180deg, rgba(9, 17, 33, 0.78), rgba(2, 6, 23, 0.88));
+      box-shadow: var(--shadow-lg);
+    }
+
+    .page::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 0%, rgba(56, 189, 248, 0.18), transparent 34%),
+        radial-gradient(circle at 90% 8%, rgba(139, 92, 246, 0.14), transparent 28%);
+      pointer-events: none;
+    }
+
+    .hero {
+      position: relative;
+      padding: 3.5rem 3rem 2.25rem;
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -120px;
+      top: 20px;
+      width: 470px;
+      height: 470px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle, rgba(34, 211, 238, 0.18), transparent 58%),
+        conic-gradient(from 90deg, rgba(56,189,248,0.2), rgba(139,92,246,0.2), rgba(34,211,238,0.18), rgba(56,189,248,0.2));
+      filter: blur(2px);
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 160px minmax(0, 1fr) 310px;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .avatar-card {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      align-items: center;
+    }
+
+    .avatar {
+      width: 148px;
+      height: 148px;
+      border-radius: 32px;
+      position: relative;
+      padding: 3px;
+      background: var(--gradient);
+      box-shadow: var(--glow-strong);
+      overflow: hidden;
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 29px;
+      display: block;
+      background: rgba(2, 6, 23, 0.8);
+    }
+
+    .availability {
+      width: 100%;
+      border: 1px solid rgba(34, 197, 94, 0.28);
+      background: rgba(34, 197, 94, 0.08);
+      color: #bbf7d0;
+      border-radius: 999px;
+      padding: 0.45rem 0.7rem;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-align: center;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      border: 1px solid var(--border-2);
+      background: rgba(56, 189, 248, 0.10);
+      color: var(--accent);
+      border-radius: 999px;
+      padding: 0.5rem 0.85rem;
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      box-shadow: var(--glow);
+    }
+
+    .name {
+      font-size: clamp(2.35rem, 5vw, 4.9rem);
+      line-height: 0.94;
+      letter-spacing: -0.07em;
+      font-weight: 900;
+      margin-bottom: 0.8rem;
+    }
+
+    .name span {
+      background: linear-gradient(135deg, #f8fafc 0%, #bae6fd 45%, #67e8f9 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 0 42px rgba(56, 189, 248, 0.18);
+    }
+
+    .role {
+      font-size: clamp(1.02rem, 2vw, 1.32rem);
+      color: var(--text-soft);
+      font-weight: 800;
+      margin-bottom: 0.65rem;
+      letter-spacing: -0.015em;
+    }
+
+    .role strong {
+      color: var(--accent);
+    }
+
+    .tagline {
+      max-width: 760px;
+      color: var(--text-muted);
+      font-size: 1rem;
+      line-height: 1.82;
+      margin-bottom: 1.2rem;
+    }
+
+    .tagline strong {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .hero-pills {
+      display: flex;
+      gap: 0.55rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .hero-pill {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.73rem;
+      color: #cffafe;
+      border: 1px solid rgba(34, 211, 238, 0.24);
+      background: rgba(8, 145, 178, 0.08);
+      border-radius: 999px;
+      padding: 0.45rem 0.72rem;
+    }
+
+    .contact-panel {
+      border: 1px solid var(--border);
+      background: rgba(2, 6, 23, 0.58);
+      border-radius: 26px;
+      padding: 1.25rem;
+      box-shadow: var(--shadow-md);
+      backdrop-filter: blur(16px);
+    }
+
+    .contact-panel h3 {
+      font-size: 0.82rem;
+      color: var(--text);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 0.9rem;
+    }
+
+    .contact-list {
+      display: grid;
+      gap: 0.65rem;
+    }
+
+    .contact-item {
+      display: grid;
+      grid-template-columns: 24px 1fr;
+      gap: 0.6rem;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      align-items: start;
+    }
+
+    .contact-item a {
+      color: var(--text-soft);
+      border-bottom: 1px dashed rgba(56, 189, 248, 0.32);
+      transition: all 0.2s ease;
+      word-break: break-word;
+    }
+
+    .contact-item a:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .metrics-strip {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-top: 2.2rem;
+    }
+
+    .metric {
+      border: 1px solid var(--border);
+      background: var(--gradient-card);
+      border-radius: 22px;
+      padding: 1.15rem;
+      min-height: 108px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .metric-value {
+      font-family: "JetBrains Mono", monospace;
+      color: var(--accent);
+      font-size: 1.55rem;
+      font-weight: 800;
+      margin-bottom: 0.25rem;
+    }
+
+    .metric-label {
+      color: var(--text-soft);
+      font-size: 0.82rem;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .metric-note {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      margin-top: 0.3rem;
+    }
+
+    .main {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: minmax(0, 1.75fr) minmax(320px, 0.95fr);
+      gap: 1.35rem;
+      padding: 1.5rem 3rem 3rem;
+    }
+
+    .section {
+      scroll-margin-top: 100px;
+      margin-bottom: 1.35rem;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      cursor: pointer;
+      user-select: none;
+      margin-bottom: 0.8rem;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      width: 100%;
+      color: var(--primary);
+      font-size: 0.8rem;
+      font-weight: 900;
+      letter-spacing: 0.19em;
+      text-transform: uppercase;
+    }
+
+    .section-title::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--gradient);
+      box-shadow: 0 0 20px rgba(34, 211, 238, 0.6);
+      flex: 0 0 auto;
+    }
+
+    .section-title::after {
+      content: "";
+      height: 1px;
+      flex: 1;
+      background: linear-gradient(90deg, rgba(56, 189, 248, 0.55), transparent);
+    }
+
+    .toggle-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      color: var(--accent);
+      border: 1px solid var(--border);
+      background: rgba(56, 189, 248, 0.08);
+      transition: transform 0.25s ease, background 0.25s ease;
+      flex: 0 0 auto;
+    }
+
+    .section-header:hover .toggle-icon {
+      background: rgba(56, 189, 248, 0.15);
+    }
+
+    .section.collapsed .toggle-icon {
+      transform: rotate(-90deg);
+    }
+
+    .section-content {
+      overflow: hidden;
+      transition: max-height 0.42s ease, opacity 0.25s ease;
+    }
+
+    .section.collapsed .section-content {
+      max-height: 0 !important;
+      opacity: 0;
+    }
+
+    .card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--bg-card);
+      box-shadow: var(--shadow-sm);
+      padding: 1.35rem;
+      transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(120deg, rgba(56, 189, 248, 0.08), transparent 28%),
+        radial-gradient(circle at 100% 0%, rgba(139, 92, 246, 0.10), transparent 30%);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(34, 211, 238, 0.38);
+      background: var(--bg-hover);
+      box-shadow: var(--shadow-md);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card + .card {
+      margin-top: 1rem;
+    }
+
+    .profile-text {
+      position: relative;
+      z-index: 1;
+      color: var(--text-soft);
+      font-size: 0.96rem;
+      line-height: 1.82;
+    }
+
+    .profile-text + .profile-text {
+      margin-top: 1rem;
+    }
+
+    strong {
+      color: var(--text);
+      font-weight: 800;
+    }
+
+    .highlight-box {
+      position: relative;
+      z-index: 1;
+      margin-top: 1.1rem;
+      border: 1px solid rgba(34, 211, 238, 0.24);
+      border-radius: 18px;
+      background: rgba(34, 211, 238, 0.07);
+      padding: 1rem;
+      color: var(--text-soft);
+      font-size: 0.9rem;
+    }
+
+    .job-header {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      margin-bottom: 0.85rem;
+    }
+
+    .job-title {
+      color: var(--text);
+      font-size: 1.05rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.18rem;
+    }
+
+    .job-company {
+      color: var(--accent);
+      font-weight: 800;
+      font-size: 0.92rem;
+    }
+
+    .job-meta {
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      margin-top: 0.18rem;
+    }
+
+    .job-period {
+      color: var(--text-soft);
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.35rem 0.75rem;
+      font-size: 0.78rem;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .job-bullets {
+      list-style: none;
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 0.55rem;
+      margin-top: 0.75rem;
+    }
+
+    .job-bullets li {
+      color: var(--text-soft);
+      font-size: 0.92rem;
+      line-height: 1.62;
+      position: relative;
+      padding-left: 1.4rem;
+    }
+
+    .job-bullets li::before {
+      content: "▹";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 900;
+    }
+
+    .pill-row {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: 1rem;
+    }
+
+    .pill {
+      font-size: 0.74rem;
+      font-weight: 800;
+      color: #dbeafe;
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      background: rgba(15, 23, 42, 0.7);
+      border-radius: 999px;
+      padding: 0.36rem 0.66rem;
+    }
+
+    .pill.accent {
+      color: #cffafe;
+      background: rgba(34, 211, 238, 0.10);
+      border-color: rgba(34, 211, 238, 0.30);
+    }
+
+    .project-title {
+      position: relative;
+      z-index: 1;
+      font-size: 1.12rem;
+      font-weight: 900;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+      letter-spacing: -0.02em;
+    }
+
+    .project-sub {
+      position: relative;
+      z-index: 1;
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 0.88rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .text-muted {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.7;
+      position: relative;
+      z-index: 1;
+    }
+
+    .impact-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.7rem;
+      margin-top: 1rem;
+    }
+
+    .impact-card {
+      border: 1px solid rgba(34, 197, 94, 0.20);
+      background: rgba(34, 197, 94, 0.07);
+      border-radius: 16px;
+      padding: 0.85rem;
+    }
+
+    .impact-card strong {
+      display: block;
+      color: #bbf7d0;
+      font-size: 0.96rem;
+      font-family: "JetBrains Mono", monospace;
+      margin-bottom: 0.12rem;
+    }
+
+    .impact-card span {
+      color: var(--text-muted);
+      font-size: 0.76rem;
+      line-height: 1.35;
+      display: block;
+    }
+
+    .skill-group {
+      position: relative;
+      z-index: 1;
+      margin-bottom: 1.15rem;
+    }
+
+    .skill-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .skill-group-title {
+      color: var(--text-soft);
+      font-size: 0.76rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-weight: 900;
+      margin-bottom: 0.65rem;
+    }
+
+    .skill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.48rem;
+    }
+
+    .skill {
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      background: rgba(15, 23, 42, 0.7);
+      color: var(--text-soft);
+      border-radius: 999px;
+      padding: 0.4rem 0.72rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      transition: all 0.2s ease;
+    }
+
+    .skill:hover {
+      color: #cffafe;
+      border-color: rgba(34, 211, 238, 0.46);
+      background: rgba(34, 211, 238, 0.10);
+      transform: translateY(-1px);
+    }
+
+    .mini-card-grid {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .mini-card {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: rgba(2, 6, 23, 0.42);
+      padding: 1rem;
+    }
+
+    .mini-card-title {
+      color: var(--text);
+      font-size: 0.94rem;
+      font-weight: 900;
+      margin-bottom: 0.15rem;
+    }
+
+    .mini-card-meta {
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      line-height: 1.5;
+    }
+
+    .timeline {
+      position: relative;
+      padding-left: 1rem;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 4px;
+      top: 5px;
+      bottom: 5px;
+      width: 1px;
+      background: linear-gradient(180deg, rgba(56, 189, 248, 0.7), transparent);
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-left: 1.1rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .timeline-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -0.07rem;
+      top: 0.45rem;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 15px rgba(34, 211, 238, 0.8);
+    }
+
+    .timeline-title {
+      color: var(--text);
+      font-size: 0.9rem;
+      font-weight: 900;
+    }
+
+    .timeline-text {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      line-height: 1.45;
+    }
+
+    .footer-note {
+      margin-top: 1.2rem;
+      border-top: 1px solid var(--border);
+      padding-top: 1.2rem;
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 0.78rem;
+    }
+
+    .print-note {
+      position: relative;
+      z-index: 2;
+      margin: 0 3rem 3rem;
+      border: 1px solid var(--border);
+      background: rgba(2, 6, 23, 0.5);
+      border-radius: 20px;
+      padding: 1rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+    }
+
+    @media (max-width: 1080px) {
+      .hero-grid {
+        grid-template-columns: 150px minmax(0, 1fr);
+      }
+
+      .contact-panel {
+        grid-column: 1 / -1;
+      }
+
+      .metrics-strip {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .main {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .nav {
+        justify-content: center;
+      }
+
+      .nav-brand {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .nav-actions {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .container {
+        padding: 1rem;
+      }
+
+      .page {
+        border-radius: 26px;
+      }
+
+      .hero {
+        padding: 2rem 1.2rem 1.4rem;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .avatar-card {
+        margin: 0 auto;
+      }
+
+      .hero-pills,
+      .skill-list,
+      .pill-row {
+        justify-content: center;
+      }
+
+      .contact-item {
+        text-align: left;
+      }
+
+      .metrics-strip,
+      .impact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .main {
+        padding: 1rem 1.2rem 2rem;
+      }
+
+      .print-note {
+        margin: 0 1.2rem 1.6rem;
+      }
+    }
+
+    @media print {
+      body {
+        background: white !important;
+        color: #0f172a !important;
+      }
+
+      body::before,
+      body::after,
+      .nav-container,
+      .print-note,
+      .availability,
+      .btn {
+        display: none !important;
+      }
+
+      .container {
+        padding: 0 !important;
+        max-width: none !important;
+      }
+
+      .page {
+        box-shadow: none !important;
+        border: none !important;
+        border-radius: 0 !important;
+        background: white !important;
+      }
+
+      .hero,
+      .main {
+        padding: 1.2rem !important;
+      }
+
+      .hero-grid,
+      .main {
+        display: block !important;
+      }
+
+      .avatar-card,
+      .contact-panel {
+        display: none !important;
+      }
+
+      .metrics-strip,
+      .impact-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+
+      .card,
+      .metric,
+      .mini-card,
+      .contact-panel {
+        box-shadow: none !important;
+        background: white !important;
+        border: 1px solid #cbd5e1 !important;
+        break-inside: avoid;
+      }
+
+      * {
+        color: #0f172a !important;
+        background-image: none !important;
+      }
+
+      .section.collapsed .section-content {
+        max-height: none !important;
+        opacity: 1 !important;
+      }
+    }
+
+    ::selection {
+      background: rgba(56, 189, 248, 0.35);
+      color: #fff;
+    }
+  </style>
 </head>
+
 <body>
-    <!-- Navegación Sticky -->
-    <div class="nav-container">
-        <nav class="nav">
-            <div class="nav-links">
-                <a href="#perfil" class="nav-link">Perfil</a>
-                <a href="#experiencia" class="nav-link">Experiencia</a>
-                <a href="#proyecto" class="nav-link">Proyecto</a>
-                <a href="#competencias" class="nav-link">Competencias</a>
-                <a href="#formacion" class="nav-link">Formación</a>
-            </div>
-            <div class="nav-controls">
-                <button class="btn-control" onclick="expandAll()">Expandir Todo</button>
-                <button class="btn-control" onclick="collapseAll()">Colapsar Todo</button>
-            </div>
-        </nav>
-    </div>
-
-    <div class="container">
-        <div class="page">
-            <header>
-                <div class="avatar">
-                    <img src="carlos.jpeg" alt="Carlos Salfate">
-                </div>
-                <div class="header-main">
-                    <div class="name">Carlos Salfate</div>
-                    <div class="title">Automation & Systems Engineer</div>
-                    <p class="tagline">
-                        Operación y automatización de infraestructura crítica nacional (+630 módulos).  
-                        Especializado en Python, Linux, Ansible, n8n e IA aplicada a monitoreo y continuidad operativa.
-                    </p>
-                    <div class="badge-highlight">
-                        <span>🚀</span>
-                        <span>Infraestructura crítica: +630 módulos en producción</span>
-                    </div>
-                </div>
-                <div class="contact">
-                    <div class="contact-item">
-                        <span>📍</span>
-                        <span>Santiago, Chile · 100% remoto</span>
-                    </div>
-                    <div class="contact-item">
-                        <span>✉️</span>
-                        <a href="mailto:carlos_salfate@hotmail.com">carlos_salfate@hotmail.com</a>
-                    </div>
-                    <div class="contact-item">
-                        <span>📞</span>
-                        <span>+569 51445939</span>
-                    </div>
-                    <div class="contact-item">
-                        <span>💼</span>
-                        <a href="https://www.linkedin.com/in/carlossalfate" target="_blank">LinkedIn Profile</a>
-                    </div>
-                </div>
-            </header>
-
-            <main>
-                <!-- Columna izquierda -->
-                <section>
-                    <div class="section" id="perfil">
-                        <div class="section-header" onclick="toggleSection(this)">
-                            <h2 class="section-title">Perfil profesional</h2>
-                            <div class="toggle-icon">▼</div>
-                        </div>
-                        <div class="section-content">
-                            <div class="card">
-                                <p class="profile-text">
-                                    Ingeniero de Desarrollo y Automatización con más de 4 años operando y mejorando infraestructura
-                                    crítica para el Estado de Chile, responsable directo del monitoreo y continuidad operativa de
-                                    <strong>136 módulos MEX propios de ChileAtiende</strong> y más de
-                                    <strong>500 módulos de otras instituciones</strong> (Registro Civil, Fonasa, MDS, Municipalidades,
-                                    RR.EE., entre otros).
-                                </p>
-                                <p class="profile-text" style="margin-top: 1rem;">
-                                    Me caracterizo por ser <strong>altamente observador, proactivo y orientado a la mejora continua</strong>,
-                                    capaz de detectar puntos de falla, proponer soluciones innovadoras y llevarlas a producción usando
-                                    automatización (Ansible, n8n, Python), Linux y herramientas de IA para aumentar la estabilidad y reducir
-                                    el trabajo manual del equipo de soporte.
-                                </p>
-                                <p class="profile-text" style="margin-top: 1rem;">
-                                    Cuento con <strong>inglés avanzado (C1)</strong> y experiencia trabajando directamente con proveedores
-                                    internacionales como <strong>Netdata</strong> y <strong>Uptrends</strong>, gestionando soporte,
-                                    adquisiciones y troubleshooting técnico completamente en inglés.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="section" id="experiencia">
-                        <div class="section-header" onclick="toggleSection(this)">
-                            <h2 class="section-title">Experiencia profesional</h2>
-                            <div class="toggle-icon">▼</div>
-                        </div>
-                        <div class="section-content">
-                            <!-- Tecnova -->
-                            <div class="card">
-                                <div class="job-header">
-                                    <div>
-                                        <div class="job-title">Ingeniero de Desarrollo / Automation Engineer</div>
-                                        <div class="job-company">Tecnova · Proyecto ChileAtiende – IPS</div>
-                                    </div>
-                                    <div class="job-period">2024 – Actualidad</div>
-                                </div>
-                                <ul class="job-bullets">
-                                    <li>Operación y automatización de <strong>136 módulos MEX propios</strong> y soporte a
-                                        <strong>500+ módulos externos</strong> de instituciones públicas en todo Chile.</li>
-                                    <li>Diseño y ejecución de automatización avanzada con <strong>Ansible, n8n, Python y SSH</strong>:
-                                        reinicios masivos, despliegue de parches, instalación de software y scripts de mantenimiento.</li>
-                                    <li>Implementación de <strong>Wake-on-LAN masivo</strong> para encendido remoto de módulos sin
-                                        intervención humana.</li>
-                                    <li>Desarrollo de <strong>scripts de autoreparación</strong> (Brave kiosko, impresoras, permisos,
-                                        servicios y periféricos).</li>
-                                    <li>Integración de herramientas de <strong>observabilidad y monitoreo global</strong> (Netdata,
-                                        Uptrends), incluyendo configuración, métricas y alertas.</li>
-                                    <li>Uso de <strong>IA</strong> para análisis de logs, generación de reportes ejecutivos y apoyo a un
-                                        modelo predictivo de fallas.</li>
-                                </ul>
-                            </div>
-
-                            <!-- Honorarios IPS -->
-                            <div class="card">
-                                <div class="job-header">
-                                    <div>
-                                        <div class="job-title">Ingeniero de Soporte Avanzado / Automatización</div>
-                                        <div class="job-company">Honorarios IPS – ChileAtiende</div>
-                                    </div>
-                                    <div class="job-period">2023 – 2024</div>
-                                </div>
-                                <ul class="job-bullets">
-                                    <li>Diagnóstico avanzado de módulos MEX en producción: red, DNS, biometría, impresión y Brave.</li>
-                                    <li>Desarrollo de scripts en <strong>Python y Bash</strong> para automatizar tareas repetitivas de
-                                        soporte y mantenimiento.</li>
-                                    <li>Levantamiento de requerimientos técnicos para otras áreas de la institución, definiendo necesidades
-                                        y alcances de soluciones TI.</li>
-                                    <li>Implementación de <strong>servidores de impresión remotos</strong> para apoyar a sucursales en
-                                        distintas regiones.</li>
-                                    <li>Uso de herramientas de IA para documentación, análisis de patrones de falla y propuestas de mejora.</li>
-                                </ul>
-                            </div>
-
-                            <!-- Infosky -->
-                            <div class="card">
-                                <div class="job-header">
-                                    <div>
-                                        <div class="job-title">Analista de Soporte TI</div>
-                                        <div class="job-company">Infosky · Proyecto ChileAtiende</div>
-                                    </div>
-                                    <div class="job-period">2022 – 2023</div>
-                                </div>
-                                <ul class="job-bullets">
-                                    <li>Soporte remoto por <strong>SSH</strong> a nodos Linux (Lubuntu/Xubuntu) en módulos de autoatención.</li>
-                                    <li>Restablecimiento de servicios críticos: impresión, navegador en modo kiosko, conectividad.</li>
-                                    <li>Documentación de incidentes y colaboración en la estandarización de procedimientos de soporte.</li>
-                                </ul>
-                            </div>
-
-                            <!-- TIC Services -->
-                            <div class="card">
-                                <div class="job-header">
-                                    <div>
-                                        <div class="job-title">Soporte TI</div>
-                                        <div class="job-company">TIC Services · Proyecto ChileAtiende</div>
-                                    </div>
-                                    <div class="job-period">2021 – 2022</div>
-                                </div>
-                                <ul class="job-bullets">
-                                    <li>Soporte técnico a módulos de autoatención MEX a nivel nacional.</li>
-                                    <li>Configuración de red, impresoras, pantalla táctil y ejecución de Brave en modo kiosko.</li>
-                                    <li>Base operativa que dio origen a posteriores automatizaciones en la infraestructura.</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="section" id="proyecto">
-                        <div class="section-header" onclick="toggleSection(this)">
-                            <h2 class="section-title">Proyecto destacado</h2>
-                            <div class="toggle-icon">▼</div>
-                        </div>
-                        <div class="section-content">
-                            <div class="card">
-                                <div class="project-title">OMNIX CORE – Plataforma Inteligente de Monitoreo y Automatización</div>
-                                <div class="project-sub">Sistema interno para monitoreo, automatización y continuidad operativa de módulos MEX y asociados.</div>
-                                <p class="text-muted" style="margin-bottom: 0.75rem;">
-                                    Desarrollo de una plataforma que centraliza el estado de más de 630 módulos, con monitoreo en tiempo
-                                    real, ejecución remota de acciones, análisis de patrones e integración con IA.
-                                </p>
-                                <ul class="job-bullets">
-                                    <li>Dashboard en tiempo real con estados por módulo (ping, accesibilidad, color de estado, detalle).</li>
-                                    <li>Automatización de acciones mediante <strong>Ansible + n8n</strong>: reinicios, WOL, parches, evidencias.</li>
-                                    <li>Integración con <strong>Netdata</strong> y <strong>Uptrends</strong> para observabilidad interna y monitoreo externo.</li>
-                                    <li>Generación de reportes ejecutivos automáticos (correos, resúmenes, métricas de disponibilidad).</li>
-                                    <li>Uso de IA para análisis de logs y construcción de un modelo predictivo inicial de riesgo de falla.</li>
-                                </ul>
-                                <div class="project-metrics">
-                                    <strong>Impacto:</strong> Reducción del trabajo manual de soporte, disminución del MTTR/MTTD y transición desde un soporte
-                                    reactivo a uno proactivo/predictivo.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Columna derecha -->
-                <aside>
-                    <div class="section" id="competencias">
-                        <div class="section-header" onclick="toggleSection(this)">
-                            <h2 class="section-title">Competencias técnicas</h2>
-                            <div class="toggle-icon">▼</div>
-                        </div>
-                        <div class="section-content">
-                            <div class="card">
-                                <div class="skill-group">
-                                    <div class="skill-group-title">Automatización</div>
-                                    <div class="skill-list">
-                                        <span class="skill">Ansible (avanzado)</span>
-                                        <span class="skill">n8n (avanzado)</span>
-                                        <span class="skill">SSH automation</span>
-                                        <span class="skill">Wake-on-LAN</span>
-                                        <span class="skill">Scripts autoreparadores</span>
-                                    </div>
-                                </div>
-
-                                <div class="skill-group">
-                                    <div class="skill-group-title">Desarrollo / Scripting</div>
-                                    <div class="skill-list">
-                                        <span class="skill">Python</span>
-                                        <span class="skill">Bash</span>
-                                        <span class="skill">Node.js</span>
-                                        <span class="skill">JavaScript</span>
-                                        <span class="skill">Flask</span>
-                                        <span class="skill">API REST</span>
-                                    </div>
-                                </div>
-
-                                <div class="skill-group">
-                                    <div class="skill-group-title">Infraestructura</div>
-                                    <div class="skill-list">
-                                        <span class="skill">Linux (Ubuntu/Debian)</span>
-                                        <span class="skill">Redes, DNS, DHCP</span>
-                                        <span class="skill">Systemd</span>
-                                        <span class="skill">Servidores de impresión</span>
-                                        <span class="skill">Netdata</span>
-                                        <span class="skill">Uptrends</span>
-                                    </div>
-                                </div>
-
-                                <div class="skill-group">
-                                    <div class="skill-group-title">Herramientas</div>
-                                    <div class="skill-list">
-                                        <span class="skill">Docker</span>
-                                        <span class="skill">Git / GitHub</span>
-                                        <span class="skill">Apache</span>
-                                        <span class="skill">Nginx</span>
-                                        <span class="skill">MySQL</span>
-                                        <span class="skill">OpenSSH</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="section" id="idiomas">
-                        <div class="section-header" onclick="toggleSection(this)">
-                            <h2 class="section-title">Idiomas</h2>
-                            <div class="toggle-icon">▼</div>
-                        </div>
-                        <div class="section-content">
-                            <div class="card">
-                                <p class="lang-level"><strong>Español:</strong> Nativo</p>
-                                <p class="lang-level"><strong>Inglés:</strong> Avanzado (C1) – uso diario en contexto técnico, reuniones con proveedores, soporte, documentación.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="section" id="formacion">
-                        <div class="section-header" onclick="toggleSection(this)">
-                            <h2 class="section-title">Formación</h2>
-                            <div class="toggle-icon">▼</div>
-                        </div>
-                        <div class="section-content">
-                            <div class="card">
-                                <div class="edu-title">Ingeniería Informática</div>
-                                <div class="edu-meta">INACAP · 2021 – 2025</div>
-                                <p class="text-muted" style="margin-top: 0.5rem;">
-                                    Defensa de proyecto de título: 11 de diciembre de 2025.  
-                                    Título profesional en trámite para 2026.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="section" id="fortalezas">
-                        <div class="section-header" onclick="toggleSection(this)">
-                            <h2 class="section-title">Fortalezas personales</h2>
-                            <div class="toggle-icon">▼</div>
-                        </div>
-                        <div class="section-content">
-                            <div class="card">
-                                <ul class="job-bullets">
-                                    <li>Capacidad de observación para detectar mejoras y riesgos antes de que sean incidentes.</li>
-                                    <li>Proactividad y visión orientada a automatizar tareas repetitivas e ineficientes.</li>
-                                    <li>Generación constante de ideas innovadoras para mejorar procesos y sistemas.</li>
-                                    <li>Trabajo autónomo y colaborativo en entornos remotos.</li>
-                                    <li>Comunicación clara con equipos técnicos y no técnicos, en español e inglés.</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </aside>
-            </main>
-
-            <div class="print-note">
-                💡 Puedes exportar este CV como PDF desde el navegador: Archivo → Imprimir → Guardar como PDF
-            </div>
+  <div class="nav-container">
+    <nav class="nav">
+      <a class="nav-brand" href="#inicio" aria-label="Ir al inicio">
+        <div class="brand-mark">BL</div>
+        <div class="brand-text">
+          <strong>BugLab Soluciones</strong>
+          <span>AI · Automation · DevOps</span>
         </div>
+      </a>
+
+      <div class="nav-links">
+        <a href="#perfil" class="nav-link">Perfil</a>
+        <a href="#buglab" class="nav-link">BugLab</a>
+        <a href="#experiencia" class="nav-link">Experiencia</a>
+        <a href="#proyectos" class="nav-link">Proyectos</a>
+        <a href="#stack" class="nav-link">Stack</a>
+        <a href="#formacion" class="nav-link">Formación</a>
+      </div>
+
+      <div class="nav-actions">
+        <button class="btn" onclick="expandAll()">Expandir</button>
+        <button class="btn" onclick="collapseAll()">Colapsar</button>
+        <button class="btn btn-primary" onclick="window.print()">Guardar PDF</button>
+      </div>
+    </nav>
+  </div>
+
+  <div class="container" id="inicio">
+    <div class="page">
+      <header class="hero">
+        <div class="hero-grid">
+          <div class="avatar-card">
+            <div class="avatar">
+              <img src="carlos.jpeg" alt="Carlos Salfate" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=&quot;width:100%;height:100%;display:grid;place-items:center;border-radius:29px;background:#020617;color:#67e8f9;font-weight:900;font-size:2.6rem;&quot;>CS</div>';" />
+            </div>
+            <div class="availability">Founder Mode ON</div>
+          </div>
+
+          <div class="hero-main">
+            <div class="eyebrow">Founder & CEO · BugLab Soluciones</div>
+            <h1 class="name"><span>Carlos Salfate</span></h1>
+            <div class="role">
+              <strong>AI Automation Architect</strong> · DevOps · Full Stack · Intelligent Infrastructure
+            </div>
+            <p class="tagline">
+              Desarrollo soluciones de <strong>automatización inteligente, monitoreo avanzado, IA aplicada y continuidad operativa</strong>
+              para infraestructura crítica. Mi foco está en transformar operaciones técnicas complejas en sistemas autónomos,
+              observables y escalables.
+            </p>
+
+            <div class="hero-pills">
+              <span class="hero-pill">Python</span>
+              <span class="hero-pill">Linux</span>
+              <span class="hero-pill">Docker</span>
+              <span class="hero-pill">Ansible</span>
+              <span class="hero-pill">n8n</span>
+              <span class="hero-pill">AI Agents</span>
+              <span class="hero-pill">Monitoring</span>
+              <span class="hero-pill">Full Stack</span>
+            </div>
+          </div>
+
+          <aside class="contact-panel">
+            <h3>Contacto</h3>
+            <div class="contact-list">
+              <div class="contact-item">
+                <span>📍</span>
+                <span>Santiago, Chile · Remoto / Híbrido</span>
+              </div>
+              <div class="contact-item">
+                <span>✉️</span>
+                <a href="mailto:carlos_salfate@hotmail.com">carlos_salfate@hotmail.com</a>
+              </div>
+              <div class="contact-item">
+                <span>📞</span>
+                <span>+56 9 5144 5939</span>
+              </div>
+              <div class="contact-item">
+                <span>🌐</span>
+                <a href="https://www.buglabsoluciones.com" target="_blank" rel="noopener">buglabsoluciones.com</a>
+              </div>
+              <div class="contact-item">
+                <span>💼</span>
+                <a href="https://www.linkedin.com/in/carlossalfate" target="_blank" rel="noopener">linkedin.com/in/carlossalfate</a>
+              </div>
+              <div class="contact-item">
+                <span>🚀</span>
+                <span>Founder & CEO · BugLab Soluciones</span>
+              </div>
+            </div>
+          </aside>
+        </div>
+
+        <div class="metrics-strip">
+          <div class="metric">
+            <div class="metric-value">+630</div>
+            <div class="metric-label">Módulos monitoreados / soportados</div>
+            <div class="metric-note">Infraestructura crítica multiinstitucional</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">136</div>
+            <div class="metric-label">Módulos MEX ChileAtiende</div>
+            <div class="metric-note">Continuidad operativa nacional</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">24/7</div>
+            <div class="metric-label">Visión de observabilidad</div>
+            <div class="metric-note">Alertas, reportes y automatización</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">C1</div>
+            <div class="metric-label">Inglés técnico avanzado</div>
+            <div class="metric-note">Proveedores, soporte y documentación</div>
+          </div>
+        </div>
+      </header>
+
+      <main class="main">
+        <section class="left-column">
+          <div class="section" id="perfil">
+            <div class="section-header" onclick="toggleSection(this)">
+              <h2 class="section-title">Perfil profesional</h2>
+              <div class="toggle-icon">▼</div>
+            </div>
+            <div class="section-content">
+              <div class="card">
+                <p class="profile-text">
+                  Ingeniero de Desarrollo especializado en <strong>automatización, IA aplicada, monitoreo inteligente,
+                  infraestructura Linux y desarrollo full stack</strong>. He trabajado en continuidad operativa de módulos
+                  de autoatención a nivel nacional, integrando herramientas como Python, Ansible, n8n, Docker, Netdata,
+                  Uptrends y flujos de inteligencia artificial para mejorar diagnósticos, reportes y remediación.
+                </p>
+                <p class="profile-text">
+                  Mi propuesta de valor es unir experiencia real en operación crítica con desarrollo de software e IA:
+                  entiendo el problema desde terreno, lo modelo técnicamente y lo convierto en una solución automatizada,
+                  medible y mantenible.
+                </p>
+                <div class="highlight-box">
+                  <strong>Posicionamiento:</strong> AI Automation Architect orientado a construir sistemas autónomos de monitoreo,
+                  soporte, alertamiento y remediación para operaciones técnicas complejas.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section" id="buglab">
+            <div class="section-header" onclick="toggleSection(this)">
+              <h2 class="section-title">BugLab Soluciones</h2>
+              <div class="toggle-icon">▼</div>
+            </div>
+            <div class="section-content">
+              <div class="card">
+                <div class="job-header">
+                  <div>
+                    <div class="job-title">Founder & CEO · AI Automation Architect</div>
+                    <div class="job-company">BugLab Soluciones</div>
+                    <div class="job-meta">Automatización inteligente · IA aplicada · DevOps · Desarrollo full stack</div>
+                  </div>
+                  <div class="job-period">2025 – Actualidad</div>
+                </div>
+
+                <ul class="job-bullets">
+                  <li>Fundador de <strong>BugLab Soluciones</strong>, iniciativa enfocada en automatización inteligente, IA aplicada, monitoreo avanzado y desarrollo de soluciones digitales.</li>
+                  <li>Diseño de plataformas orientadas a <strong>observabilidad, remediación automática, integración de agentes IA y orquestación de procesos</strong>.</li>
+                  <li>Desarrollo de soluciones full stack con foco en eficiencia operacional, experiencia de usuario, integración de APIs y despliegues modernos.</li>
+                  <li>Implementación de flujos con <strong>n8n, Python, Docker, Linux, Ansible y servicios de IA</strong> para reducir tareas manuales y mejorar continuidad operativa.</li>
+                  <li>Construcción de una marca tecnológica centrada en soluciones reales para empresas, instituciones y equipos técnicos que buscan automatizar procesos críticos.</li>
+                </ul>
+
+                <div class="pill-row">
+                  <span class="pill accent">AI Automation</span>
+                  <span class="pill accent">DevOps</span>
+                  <span class="pill accent">AIOps</span>
+                  <span class="pill">Python</span>
+                  <span class="pill">Flask</span>
+                  <span class="pill">n8n</span>
+                  <span class="pill">Docker</span>
+                  <span class="pill">Ansible</span>
+                  <span class="pill">APIs REST</span>
+                  <span class="pill">Monitoring</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section" id="experiencia">
+            <div class="section-header" onclick="toggleSection(this)">
+              <h2 class="section-title">Experiencia profesional</h2>
+              <div class="toggle-icon">▼</div>
+            </div>
+            <div class="section-content">
+              <div class="card">
+                <div class="job-header">
+                  <div>
+                    <div class="job-title">Ingeniero de Desarrollo / Automation Engineer</div>
+                    <div class="job-company">Tecnova · Proyecto ChileAtiende – IPS</div>
+                    <div class="job-meta">Automatización, monitoreo, continuidad operativa e IA aplicada</div>
+                  </div>
+                  <div class="job-period">2024 – Actualidad</div>
+                </div>
+
+                <ul class="job-bullets">
+                  <li>Operación, monitoreo y automatización de <strong>136 módulos MEX propios de ChileAtiende</strong> y apoyo técnico a <strong>500+ módulos externos</strong> de instituciones públicas.</li>
+                  <li>Diseño y ejecución de automatizaciones con <strong>Ansible, n8n, Python, Bash y SSH</strong> para reinicios masivos, despliegue de parches, validaciones y mantenimiento remoto.</li>
+                  <li>Implementación de procesos de <strong>Wake-on-LAN masivo</strong>, verificaciones automatizadas y reportes de estado para reducir intervención manual.</li>
+                  <li>Desarrollo de scripts de autoreparación para navegador en modo kiosko, impresoras, permisos, servicios, conectividad y periféricos críticos.</li>
+                  <li>Integración de herramientas de observabilidad como <strong>Netdata y Uptrends</strong>, incluyendo métricas, alertas, evidencia técnica y coordinación con proveedores.</li>
+                  <li>Uso de IA para análisis de logs, documentación técnica, reportes ejecutivos y construcción de bases para modelos predictivos de falla.</li>
+                </ul>
+
+                <div class="impact-grid">
+                  <div class="impact-card">
+                    <strong>+630</strong>
+                    <span>módulos bajo visión operativa</span>
+                  </div>
+                  <div class="impact-card">
+                    <strong>MTTR ↓</strong>
+                    <span>menor tiempo de diagnóstico y respuesta</span>
+                  </div>
+                  <div class="impact-card">
+                    <strong>AutoOps</strong>
+                    <span>paso de soporte manual a soporte automatizado</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="job-header">
+                  <div>
+                    <div class="job-title">Ingeniero de Soporte Avanzado / Automatización</div>
+                    <div class="job-company">Honorarios IPS – ChileAtiende</div>
+                    <div class="job-meta">Diagnóstico avanzado, scripting y soporte especializado</div>
+                  </div>
+                  <div class="job-period">2023 – 2024</div>
+                </div>
+
+                <ul class="job-bullets">
+                  <li>Diagnóstico avanzado de módulos MEX en producción: red, DNS, biometría, impresión, navegador kiosko y servicios Linux.</li>
+                  <li>Desarrollo de scripts en <strong>Python y Bash</strong> para automatizar tareas repetitivas de soporte y mantenimiento.</li>
+                  <li>Levantamiento de requerimientos técnicos para otras áreas, definiendo alcance, necesidades operativas y mejoras de proceso.</li>
+                  <li>Implementación de servidores de impresión remotos y soluciones de contingencia para sucursales en distintas regiones.</li>
+                  <li>Uso de herramientas de IA para documentación, análisis de patrones de falla y propuestas de mejora técnica.</li>
+                </ul>
+              </div>
+
+              <div class="card">
+                <div class="job-header">
+                  <div>
+                    <div class="job-title">Analista de Soporte TI</div>
+                    <div class="job-company">Infosky · Proyecto ChileAtiende</div>
+                    <div class="job-meta">Soporte Linux, SSH y continuidad de módulos</div>
+                  </div>
+                  <div class="job-period">2022 – 2023</div>
+                </div>
+
+                <ul class="job-bullets">
+                  <li>Soporte remoto por <strong>SSH</strong> a nodos Linux en módulos de autoatención distribuidos a nivel nacional.</li>
+                  <li>Restablecimiento de servicios críticos: impresión, navegador en modo kiosko, conectividad y componentes periféricos.</li>
+                  <li>Documentación de incidentes y colaboración en la estandarización de procedimientos técnicos.</li>
+                </ul>
+              </div>
+
+              <div class="card">
+                <div class="job-header">
+                  <div>
+                    <div class="job-title">Soporte TI</div>
+                    <div class="job-company">TIC Services · Proyecto ChileAtiende</div>
+                    <div class="job-meta">Soporte operativo a módulos de autoatención</div>
+                  </div>
+                  <div class="job-period">2021 – 2022</div>
+                </div>
+
+                <ul class="job-bullets">
+                  <li>Soporte técnico a módulos MEX a nivel nacional, abordando conectividad, periféricos y continuidad del servicio.</li>
+                  <li>Configuración de red, impresoras, pantalla táctil y navegador en modo kiosko.</li>
+                  <li>Base operativa que posteriormente permitió identificar oportunidades de automatización y mejora continua.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="section" id="proyectos">
+            <div class="section-header" onclick="toggleSection(this)">
+              <h2 class="section-title">Proyectos destacados</h2>
+              <div class="toggle-icon">▼</div>
+            </div>
+            <div class="section-content">
+              <div class="card">
+                <div class="project-title">BugLab Sentinel · Intelligent Monitoring Platform</div>
+                <div class="project-sub">Plataforma de monitoreo, automatización y soporte inteligente</div>
+                <p class="text-muted">
+                  Plataforma orientada a centralizar estados de servicios, módulos e infraestructura crítica mediante dashboards,
+                  automatización de acciones, alertas, reportes ejecutivos e integración con IA para análisis de eventos.
+                </p>
+                <ul class="job-bullets">
+                  <li>Dashboard operacional con estados por módulo, accesibilidad, evidencia y clasificación visual.</li>
+                  <li>Automatización con <strong>n8n + Ansible</strong> para reinicios, WOL, parches, validaciones y generación de reportes.</li>
+                  <li>Integración de observabilidad con Netdata, Uptrends y métricas internas.</li>
+                  <li>Uso de IA para análisis de logs, explicación de incidentes y generación de resúmenes ejecutivos.</li>
+                </ul>
+                <div class="pill-row">
+                  <span class="pill accent">AIOps</span>
+                  <span class="pill">Python</span>
+                  <span class="pill">n8n</span>
+                  <span class="pill">Ansible</span>
+                  <span class="pill">Docker</span>
+                  <span class="pill">Monitoring</span>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="project-title">Automatización MEX · Continuidad Operativa Nacional</div>
+                <div class="project-sub">Orquestación técnica para módulos de autoatención</div>
+                <p class="text-muted">
+                  Diseño de flujos y playbooks para automatizar tareas recurrentes sobre nodos Linux: verificación, reinicio,
+                  Wake-on-LAN, mantenimiento remoto, validación de servicios, reportería y notificación a equipos de soporte.
+                </p>
+                <div class="impact-grid">
+                  <div class="impact-card">
+                    <strong>WOL</strong>
+                    <span>encendido remoto automatizado</span>
+                  </div>
+                  <div class="impact-card">
+                    <strong>SSH</strong>
+                    <span>acciones remotas controladas</span>
+                  </div>
+                  <div class="impact-card">
+                    <strong>Reportes</strong>
+                    <span>evidencia ejecutiva automatizada</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="project-title">BugLab Web & Digital Solutions</div>
+                <div class="project-sub">Sitios, automatizaciones y soluciones digitales para empresas</div>
+                <p class="text-muted">
+                  Desarrollo de soluciones web modernas, integraciones API, flujos de automatización y presencia digital para negocios
+                  que buscan profesionalizar procesos, captación de clientes y operaciones internas.
+                </p>
+                <div class="pill-row">
+                  <span class="pill">Next.js</span>
+                  <span class="pill">React</span>
+                  <span class="pill">Tailwind</span>
+                  <span class="pill">Node.js</span>
+                  <span class="pill">APIs</span>
+                  <span class="pill">Automatización</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <aside class="right-column">
+          <div class="section" id="stack">
+            <div class="section-header" onclick="toggleSection(this)">
+              <h2 class="section-title">Core Stack</h2>
+              <div class="toggle-icon">▼</div>
+            </div>
+            <div class="section-content">
+              <div class="card">
+                <div class="skill-group">
+                  <div class="skill-group-title">IA & Automatización</div>
+                  <div class="skill-list">
+                    <span class="skill">AI Agents</span>
+                    <span class="skill">AIOps</span>
+                    <span class="skill">n8n avanzado</span>
+                    <span class="skill">Prompt Engineering</span>
+                    <span class="skill">Análisis de logs con IA</span>
+                    <span class="skill">Reportes automáticos</span>
+                  </div>
+                </div>
+
+                <div class="skill-group">
+                  <div class="skill-group-title">DevOps / Infraestructura</div>
+                  <div class="skill-list">
+                    <span class="skill">Linux</span>
+                    <span class="skill">Docker</span>
+                    <span class="skill">Ansible</span>
+                    <span class="skill">SSH</span>
+                    <span class="skill">Systemd</span>
+                    <span class="skill">Wake-on-LAN</span>
+                    <span class="skill">Netdata</span>
+                    <span class="skill">Uptrends</span>
+                  </div>
+                </div>
+
+                <div class="skill-group">
+                  <div class="skill-group-title">Desarrollo</div>
+                  <div class="skill-list">
+                    <span class="skill">Python</span>
+                    <span class="skill">Flask</span>
+                    <span class="skill">Bash</span>
+                    <span class="skill">JavaScript</span>
+                    <span class="skill">Node.js</span>
+                    <span class="skill">React</span>
+                    <span class="skill">Next.js</span>
+                    <span class="skill">APIs REST</span>
+                  </div>
+                </div>
+
+                <div class="skill-group">
+                  <div class="skill-group-title">Datos / Sistemas</div>
+                  <div class="skill-list">
+                    <span class="skill">MySQL</span>
+                    <span class="skill">Logs</span>
+                    <span class="skill">CSV datasets</span>
+                    <span class="skill">Métricas</span>
+                    <span class="skill">Observabilidad</span>
+                    <span class="skill">Troubleshooting</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section" id="formacion">
+            <div class="section-header" onclick="toggleSection(this)">
+              <h2 class="section-title">Formación</h2>
+              <div class="toggle-icon">▼</div>
+            </div>
+            <div class="section-content">
+              <div class="card">
+                <div class="mini-card-grid">
+                  <div class="mini-card">
+                    <div class="mini-card-title">Ingeniería Informática</div>
+                    <div class="mini-card-meta">INACAP · 2021 – 2025<br />Proyecto de título defendido en diciembre de 2025. Título profesional en trámite para 2026.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section" id="idiomas">
+            <div class="section-header" onclick="toggleSection(this)">
+              <h2 class="section-title">Idiomas</h2>
+              <div class="toggle-icon">▼</div>
+            </div>
+            <div class="section-content">
+              <div class="card">
+                <div class="mini-card-grid">
+                  <div class="mini-card">
+                    <div class="mini-card-title">Español</div>
+                    <div class="mini-card-meta">Nativo</div>
+                  </div>
+                  <div class="mini-card">
+                    <div class="mini-card-title">Inglés</div>
+                    <div class="mini-card-meta">Avanzado C1 · uso técnico con proveedores, documentación, troubleshooting y soporte internacional.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section" id="fortalezas">
+            <div class="section-header" onclick="toggleSection(this)">
+              <h2 class="section-title">Fortalezas</h2>
+              <div class="toggle-icon">▼</div>
+            </div>
+            <div class="section-content">
+              <div class="card">
+                <ul class="job-bullets">
+                  <li>Alta capacidad de observación para detectar puntos de falla y oportunidades de mejora.</li>
+                  <li>Orientación a automatizar procesos repetitivos, frágiles o manuales.</li>
+                  <li>Capacidad para traducir problemas operativos reales en soluciones técnicas mantenibles.</li>
+                  <li>Comunicación clara con equipos técnicos, jefaturas, proveedores y usuarios finales.</li>
+                  <li>Visión de producto: convertir automatizaciones internas en soluciones escalables.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="section" id="roadmap">
+            <div class="section-header" onclick="toggleSection(this)">
+              <h2 class="section-title">Roadmap profesional</h2>
+              <div class="toggle-icon">▼</div>
+            </div>
+            <div class="section-content">
+              <div class="card">
+                <div class="timeline">
+                  <div class="timeline-item">
+                    <div class="timeline-title">Soporte especializado</div>
+                    <div class="timeline-text">Base técnica en módulos, Linux, red, impresión y operación real.</div>
+                  </div>
+                  <div class="timeline-item">
+                    <div class="timeline-title">Automatización operacional</div>
+                    <div class="timeline-text">Scripts, playbooks, n8n, Ansible, reportes y remediación.</div>
+                  </div>
+                  <div class="timeline-item">
+                    <div class="timeline-title">IA aplicada</div>
+                    <div class="timeline-text">Análisis de logs, agentes, monitoreo inteligente y predicción.</div>
+                  </div>
+                  <div class="timeline-item">
+                    <div class="timeline-title">BugLab Soluciones</div>
+                    <div class="timeline-text">Construcción de marca, soluciones digitales y automatización para clientes.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section" id="links">
+            <div class="section-header" onclick="toggleSection(this)">
+              <h2 class="section-title">Links</h2>
+              <div class="toggle-icon">▼</div>
+            </div>
+            <div class="section-content">
+              <div class="card">
+                <div class="mini-card-grid">
+                  <a class="mini-card" href="https://www.buglabsoluciones.com" target="_blank" rel="noopener">
+                    <div class="mini-card-title">BugLab Soluciones</div>
+                    <div class="mini-card-meta">Sitio web oficial</div>
+                  </a>
+                  <a class="mini-card" href="https://www.linkedin.com/in/carlossalfate" target="_blank" rel="noopener">
+                    <div class="mini-card-title">LinkedIn</div>
+                    <div class="mini-card-meta">Perfil profesional</div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </main>
+
+      <div class="print-note">
+        💡 Este CV está optimizado como portfolio digital y también permite exportar a PDF desde el botón “Guardar PDF”.
+      </div>
     </div>
+  </div>
 
-    <script>
-        // Toggle individual sections
-        function toggleSection(header) {
-            const section = header.closest('.section');
-            section.classList.toggle('collapsed');
-        }
+  <script>
+    function setContentHeights() {
+      document.querySelectorAll('.section-content').forEach(content => {
+        content.style.maxHeight = content.scrollHeight + 'px';
+      });
+    }
 
-        // Expand all sections
-        function expandAll() {
-            document.querySelectorAll('.section').forEach(section => {
-                section.classList.remove('collapsed');
-            });
-        }
+    function toggleSection(header) {
+      const section = header.closest('.section');
+      const content = section.querySelector('.section-content');
 
-        // Collapse all sections
-        function collapseAll() {
-            document.querySelectorAll('.section').forEach(section => {
-                section.classList.add('collapsed');
-            });
-        }
-
-        // Navigation active state
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href').substring(1);
-                const targetSection = document.getElementById(targetId);
-                
-                if (targetSection) {
-                    // Remove active from all links
-                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-                    // Add active to clicked link
-                    this.classList.add('active');
-                    // Scroll to section
-                    targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    // Expand section if collapsed
-                    targetSection.classList.remove('collapsed');
-                }
-            });
+      if (section.classList.contains('collapsed')) {
+        section.classList.remove('collapsed');
+        content.style.maxHeight = content.scrollHeight + 'px';
+      } else {
+        content.style.maxHeight = content.scrollHeight + 'px';
+        requestAnimationFrame(() => {
+          section.classList.add('collapsed');
+          content.style.maxHeight = '0px';
         });
+      }
+    }
 
-        // Update active nav link on scroll
-        window.addEventListener('scroll', () => {
-            const sections = document.querySelectorAll('.section');
-            const navLinks = document.querySelectorAll('.nav-link');
-            
-            let current = '';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                if (window.pageYOffset >= sectionTop - 150) {
-                    current = section.getAttribute('id');
-                }
-            });
+    function expandAll() {
+      document.querySelectorAll('.section').forEach(section => {
+        const content = section.querySelector('.section-content');
+        section.classList.remove('collapsed');
+        content.style.maxHeight = content.scrollHeight + 'px';
+      });
+    }
 
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === '#' + current) {
-                    link.classList.add('active');
-                }
-            });
+    function collapseAll() {
+      document.querySelectorAll('.section').forEach(section => {
+        const content = section.querySelector('.section-content');
+        section.classList.add('collapsed');
+        content.style.maxHeight = '0px';
+      });
+    }
+
+    function updateActiveNav() {
+      const sections = [...document.querySelectorAll('.section')];
+      const navLinks = [...document.querySelectorAll('.nav-link')];
+      const current = sections
+        .filter(section => window.scrollY >= section.offsetTop - 160)
+        .pop();
+
+      navLinks.forEach(link => link.classList.remove('active'));
+
+      if (current) {
+        const active = document.querySelector('.nav-link[href="#' + current.id + '"]');
+        if (active) active.classList.add('active');
+      }
+    }
+
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', event => {
+        event.preventDefault();
+
+        const id = link.getAttribute('href').replace('#', '');
+        const target = document.getElementById(id);
+
+        if (!target) return;
+
+        target.classList.remove('collapsed');
+        const content = target.querySelector('.section-content');
+        if (content) content.style.maxHeight = content.scrollHeight + 'px';
+
+        target.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
         });
+      });
+    });
 
-        // Initialize - all sections expanded by default
-        document.addEventListener('DOMContentLoaded', () => {
-            expandAll();
-        });
-    </script>
+    window.addEventListener('resize', setContentHeights);
+    window.addEventListener('scroll', updateActiveNav, { passive: true });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      expandAll();
+      updateActiveNav();
+    });
+  </script>
 </body>
 </html>
